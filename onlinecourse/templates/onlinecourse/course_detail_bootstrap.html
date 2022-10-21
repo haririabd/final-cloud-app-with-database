@@ -75,6 +75,15 @@
                         {% for questions in course.question_set.all %}
                             <div class="card mt-1">
                                 <div class="card-header"><h5>Question {{questions.order|add:1}}: {{questions.question}}</h5></div>
+                                <div class="card-body">
+                                    <ul>
+                                        {% for choices in questions.choice_set.all %}
+                                        <li>
+                                            {{choices}}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
                         {% endfor %}
                     </div>

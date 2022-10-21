@@ -66,8 +66,7 @@ class Course(models.Model):
     is_enrolled = False
 
     def __str__(self):
-        return "Name: " + self.name + "," + \
-               "Description: " + self.description
+        return "Name: " + self.name
 
 
 # Lesson model
@@ -76,6 +75,9 @@ class Lesson(models.Model):
     order = models.IntegerField(default=0)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     content = models.TextField()
+
+    def __str__(self):
+        return self.title
 
 
 # Enrollment model
@@ -124,7 +126,7 @@ class Question(models.Model):
             return False
 
     def __str__(self):
-        return "Question: " + self.question
+        return self.question
 
 
 #  <HINT> Create a Choice Model with:
@@ -134,7 +136,7 @@ class Question(models.Model):
     # Indicate if this choice of the question is a correct one or not
     # Other fields and methods you would like to design
 class Choice(models.Model):
-    question = models.ManyToManyField(Question)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
     content = models.CharField(max_length=200)
     is_correct = models.BooleanField(default=False)
 
@@ -143,7 +145,7 @@ class Choice(models.Model):
     # One submission could have multiple choices
     # One choice could belong to multiple submissions
     def __str__(self):
-        return "Question: " + self.content
+        return self.content
 
 
 class Submission(models.Model):
