@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
      {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     <meta charset="UTF-8">
 </head>
 
@@ -14,7 +14,7 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <div class="navbar-header">
-                  <a class="navbar-brand" href="{% url 'onlinecourse:index' %}">Home</a>
+                  <a class="navbar-brand" href="{% url 'onlinecourse:index' %}">HOME</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
@@ -62,7 +62,24 @@
                 </div>
 
             -->
+            <div class="d-grid gap-2" style="margin-top: 25px;">
+                <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#exam" aria-expanded="false" aria-controls="exam">
+                    Start Exam
+                  </button>
+            </div>
 
+            <div id="exam" class="collapse" style="padding-top: 25px;">
+                {% if user.is_authenticated %}
+                    <p>Welcome! Thanks you for your interest in this course. Good luck in your exam!</p>
+                    <div class="card-columns-vertical">
+                        {% for questions in course.question_set.all %}
+                            <div class="card mt-1">
+                                <div class="card-header"><h5>Question {{questions.order|add:1}}: {{questions.question}}</h5></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
 
             <!-- <HINT> Each example will have many questions -->
