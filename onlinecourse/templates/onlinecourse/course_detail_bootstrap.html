@@ -68,6 +68,7 @@
                   </button>
             </div>
 
+            <form id="questionform" action="{% url 'onlinecourse:submit' course.id %}" method="post">
             <div id="exam" class="collapse" style="padding-top: 25px;">
                 {% if user.is_authenticated %}
                     <p>Welcome! Thanks you for your interest in this course. Good luck in your exam!</p>
@@ -75,11 +76,19 @@
                         {% for questions in course.question_set.all %}
                             <div class="card mt-1">
                                 <div class="card-header"><h5>Question {{questions.order|add:1}}: {{questions.question}}</h5></div>
+                                {% csrf_token %}
                                 <div class="card-body">
-                                    <ul>
+                                    <ul style="list-style-type:none">
+                                        <input type="hidden" name="question_{{questions.id}}" value="{{questions.id}}">
                                         {% for choices in questions.choice_set.all %}
-                                        <li>
-                                            {{choices}}
+                                        <li >                                            
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" name="choice_{{choices.id}}"
+                                                           class="form-check-input" id="{{choices.id}}"
+                                                           value="{{choices.id}}">{{ choices }}
+                                                </label>
+                                            </div>
                                         </li>
                                         {% endfor %}
                                     </ul>
@@ -88,6 +97,11 @@
                         {% endfor %}
                     </div>
                 {% endif %}
+                <input class="btn btn-success btn-block" type="submit" value="Submit">    
+            </div>
+            </form>
+            <div>
+                {{extract_answers}}
             </div>
             <!-- <HINT> If user is authenticated, show course exam with a list of question -->
 
