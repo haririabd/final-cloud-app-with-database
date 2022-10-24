@@ -40,8 +40,11 @@
     </nav>
 
     <!-- Page content -->
-    <div class="container-fluid">
-            <h2>{{ course.name }}</h2>
+    <div class="container-fluid container-md">
+            <div style="margin:20px auto; padding-bottom:10px; width: 150px">
+                <img class="card-img-top" src="{{MEDIA_URL}}/{{ course.image }}" width="250px" alt="Course image">
+            </div>
+            <h2 style="text-align: center; padding-bottom:20px;">{{ course.name }}</h2>
             <div class="card-columns-vertical">
                 {% for lesson in course.lesson_set.all %}
                     <div class="card mt-1">
@@ -62,7 +65,7 @@
                 </div>
 
             -->
-            <div class="d-grid gap-2" style="margin-top: 25px;">
+            <div class="d-grid gap-2" style="margin: 30px;">
                 <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#exam" aria-expanded="false" aria-controls="exam">
                     Start Exam
                   </button>
@@ -138,5 +141,9 @@
             <!--Check here to see more details Bootstrap checkbox
              https://www.w3schools.com/bootstrap4/bootstrap_forms_inputs.asp-->
     </div>
+    <footer class="container-md text-center">
+        <p>Project by Hariri A. from Malaysia</p>
+        <p>Created for Final Project in Developing Applications with SQL, Databases, and Django Course, Coursera</p>
+    </footer>
 </body>
 </html>

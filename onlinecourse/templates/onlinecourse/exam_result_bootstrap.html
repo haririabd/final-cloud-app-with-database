@@ -35,7 +35,7 @@
     </div>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid container-md" >
     <div style="text-align: center; padding-top: 50px">
         <div style="margin:0 auto; padding-bottom:20px; width: 150px">
             <img class="card-img-top" src="{{MEDIA_URL}}/{{ course.image }}" width="250px" alt="Course image">
@@ -46,7 +46,7 @@
     {% if mark > 80 %}
     <div class="alert alert-success">
        <!--HINT Display passed info -->
-       Congratulations {{ user.first_name }}, you passed this exam. Your score is {{ mark }}
+       Congratulations {{ user.first_name }}, you passed this exam. Your score is {{ mark }}%
     </div>
         {% else %}
         <div class="alert alert-danger">
@@ -60,13 +60,15 @@
             <div class="card-columns-vertical">
                 {% for questions in course.question_set.all %}
                     <div class="card mt-1">
-                        <div class="card-header"><h5>Question {{questions.order|add:1}}: {{questions.question}}</h5></div>
+                        <div class="card-header">
+                            <h5>Question {{questions.order|add:1}}: {{questions.question}}</h5>
+                        </div>
                         <div class="card-body">
                             <ul style="list-style-type:none">
                                 <input type="hidden" name="question_{{questions.id}}" value="{{questions.id}}">
                                 {% for choices in questions.choice_set.all %}
                                         <li class="
-                                        {% if choices.is_correct and choices in answer %}text-success fw-bolder bi bi-check-lg
+                                        {% if choices.is_correct and choices in answer %}text-success fw-bolder
                                         {% else %}{% if choices.is_correct and not choices in answer%}fw-bolder
                                         {% else %}{% if not choices.is_correct and choices in answer %}text-danger
                                         {% endif %}{% endif %}{% endif %}">{{ choices }}
@@ -77,10 +79,24 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="d-grid gap-2" style="margin-top: 25px;">
+            <div class="card border-dark mb-3" style="max-width: 60%; margin: 20px auto;">
+                <div class="card-header">How is the mark calculated?</div>
+                <div class="card-body">
+                  <h5 class="card-title">Full mark for each question is : 10</h5>
+                  <p class="card-text">You receive 0 mark if any wrong answer is selected</p>
+                  <p class="card-text">For each question, each correct answer is equal to full mark / total correct answers per question</p>
+                  <p>So if the question have 2 correct answers, 1 answer is 5 mark each. Refer get_score in views.py</p>
+                </div>
+            </div>
+            {% if mark < 80 %}
+            <div class="d-grid gap-2" style="margin: 25px 0;">
                 <a class="btn btn-primary" href="{% url 'onlinecourse:course_details' course.id %}">Re-test</a>
-        </div>
-        </div>
+            </div>
+            {% endif %}
     </div>
+    <footer class="container-md text-center">
+        <p>Project by Hariri A. from Malaysia</p>
+        <p>Created for Final Project in Developing Applications with SQL, Databases, and Django Course, Coursera</p>
+    </footer>
 </body>
 </html>
