@@ -43,7 +43,7 @@
         <p>Hi {{ user.first_name }}, you have completed the exam for {{course}}</p>
         <p>Below is your result</p>
     </div>
-    {% if grade > 80 %}
+    {% if mark > 80 %}
     <div class="alert alert-success">
        <!--HINT Display passed info -->
        Congratulations {{ user.first_name }}, you passed this exam. Your score is {{ mark }}
@@ -51,7 +51,7 @@
         {% else %}
         <div class="alert alert-danger">
             <!--HINT Display failed info -->
-            Sorry {{ user.first_name }}, you failed this exam. Your score is {{ mark }}
+            Sorry {{ user.first_name }}, you failed this exam. Your score is {{ mark }}%
         </div>
         {% endif %}
         <div class="card-columns-vertical mt-1">

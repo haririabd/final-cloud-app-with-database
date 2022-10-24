@@ -1,4 +1,6 @@
+from importlib.resources import contents
 from multiprocessing import context
+from random import choices
 from secrets import choice
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -129,14 +131,11 @@ def submit(request, course_id):
     user = request.user
     enrollment = Enrollment.objects.get(user=user, course=course)
     submission = Submission.objects.create(enrollment=enrollment)
+    # Extracting the answers from the request object.
     answer = extract_answers(request)
+    # Adding the choices to the submission.
     submission.choices.set(answer)
 
-    # context = {
-    #     'course': course,
-    #     'submission': submission
-    #     #    'answer': answered_question,
-    # }
     #     # <HINT> A example method to collect the selected choices from the exam form from the request object
     # return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
     return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(course.id, submission.id,)))
@@ -149,20 +148,41 @@ def submit(request, course_id):
     # Calculate the total score
 
 
+def get_score(course_id, submission_id):
+    question = Question.objects.filter(course=course_id)
+    mark = 0
+    total_grade = 0
+    for questions in question:
+        all_answer = 0
+        all_answer = Choice.objects.filter(
+            question=questions, is_correct=True).count()
+        answer = Submission.objects.filter(
+            id=submission_id, choices__question=questions, choices__is_correct=True).count()
+        wrong_answer = Submission.objects.filter(
+            id=submission_id, choices__question=questions, choices__is_correct=False).count()
+        grade = questions.grade
+        total_grade += grade
+        if wrong_answer != 0:
+            mark += 0
+        else:
+            if all_answer == answer:
+                mark += grade
+            else:
+                mark += ((grade / all_answer) * answer)
+
+    score = int((mark / total_grade)*100)
+    return score
+
+
 def show_exam_result(request, course_id, submission_id):
     course = get_object_or_404(Course, pk=course_id)
     submission = Submission.objects.get(id=submission_id)
     answer = submission.choices.all()
-    print(course, submission, answer)
-
-    mark = 0
-    for choices in answer:
-        if choices.is_correct:
-            mark += choices.question.grade
+    user_score = get_score(course_id, submission_id)
 
     context = {
         'course': course,
-        'mark': mark,
+        'mark': user_score,
         'answer': answer,
     }
 
