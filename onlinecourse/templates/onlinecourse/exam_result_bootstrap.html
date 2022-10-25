@@ -88,7 +88,7 @@
                   <p>So if the question have 2 correct answers, 1 answer is 5 mark each. Refer get_score in views.py</p>
                 </div>
             </div>
-            {% if mark < 80 %}
+            {% if mark < 81 %}
             <div class="d-grid gap-2" style="margin: 25px 0;">
                 <a class="btn btn-primary" href="{% url 'onlinecourse:course_details' course.id %}">Re-test</a>
             </div>
