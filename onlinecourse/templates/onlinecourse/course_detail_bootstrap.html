@@ -99,8 +99,12 @@
                             </div>
                         {% endfor %}
                     </div>
+                    <input class="btn btn-success btn-block" type="submit" value="Submit">  
+                {% else %}  
+                <div>
+                    <p class="text-center">Already registered? Please login. Otherwise, kindly register</p>
+                </div>
                 {% endif %}
-                <input class="btn btn-success btn-block" type="submit" value="Submit">    
             </div>
             </form>
             <div>
@@ -141,7 +145,7 @@
             <!--Check here to see more details Bootstrap checkbox
              https://www.w3schools.com/bootstrap4/bootstrap_forms_inputs.asp-->
     </div>
-    <footer class="container-md text-center">
+    <footer class="container-md text-center fs-6 fw-lighter">
         <p>Project by Hariri A. from Malaysia</p>
         <p>Created for Final Project in Developing Applications with SQL, Databases, and Django Course, Coursera</p>
     </footer>
