@@ -57,6 +57,7 @@ admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Instructor)
 admin.site.register(Learner)
+# Below is to register Question, Choice, enrollment and submission models. I just want to see them all in admin page
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Choice, ChoiceAdmin)
 admin.site.register(Enrollment, EnrollmentAdmin)
