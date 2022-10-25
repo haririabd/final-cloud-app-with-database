@@ -69,7 +69,7 @@
                                 {% for choices in questions.choice_set.all %}
                                         <li class="
                                         {% if choices.is_correct and choices in answer %}text-success fw-bolder
-                                        {% else %}{% if choices.is_correct and not choices in answer%}fw-bolder
+                                        {% else %}{% if choices.is_correct and not choices in answer%}text-warning
                                         {% else %}{% if not choices.is_correct and choices in answer %}text-danger
                                         {% endif %}{% endif %}{% endif %}">{{ choices }}
                                         </li>
