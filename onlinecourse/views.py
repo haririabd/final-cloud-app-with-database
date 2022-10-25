@@ -137,7 +137,6 @@ def submit(request, course_id):
     submission.choices.set(answer)
 
     #     # <HINT> A example method to collect the selected choices from the exam form from the request object
-    # return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
     return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(course.id, submission.id,)))
 
     # <HINT> Create an exam result view to check if learner passed exam and show their question results and result for each question,
@@ -147,7 +146,8 @@ def submit(request, course_id):
     # For each selected choice, check if it is a correct answer or not
     # Calculate the total score
 
-
+# Get all correct answer, compare to submitted answe
+# Calculate total mark
 def get_score(course_id, submission_id):
     question = Question.objects.filter(course=course_id)
     mark = 0
@@ -162,12 +162,14 @@ def get_score(course_id, submission_id):
             id=submission_id, choices__question=questions, choices__is_correct=False).count()
         grade = questions.grade
         total_grade += grade
+        # If there is wrong choices selected for a question, no mark at all will be given for the question
         if wrong_answer != 0:
             mark += 0
         else:
             if all_answer == answer:
-                mark += grade
+                mark += grade                
             else:
+            #mark is given even if partially correct answer is submitted
                 mark += ((grade / all_answer) * answer)
 
     score = int((mark / total_grade)*100)
